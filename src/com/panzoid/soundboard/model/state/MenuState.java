@@ -2,6 +2,11 @@ package com.panzoid.soundboard.model.state;
 
 import com.panzoid.soundboard.model.event.Event;
 
+/*
+ * MenuState remains unused for now as there is no use for a menu.
+ * 
+ * @author Wei Pan
+ */
 public class MenuState implements State{
 
 	@Override

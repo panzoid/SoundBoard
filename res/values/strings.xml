@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">SoundBoard</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="play">Play</string>
+    <string name="record">Record</string>
 
 </resources>

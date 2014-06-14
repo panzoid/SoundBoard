@@ -36,7 +36,7 @@ public class StateMachine {
 		playState = new PlayState();
 		recordState = new RecordState();
 		
-		currentState = menuState;
+		currentState = playState;
 		currentState.onEnter();
 	}
 	
