@@ -3,6 +3,8 @@
  */
 package com.panzoid.soundboard.model.state;
 
+import android.util.Log;
+
 import com.panzoid.soundboard.model.event.Event;
 
 /**
@@ -10,6 +12,8 @@ import com.panzoid.soundboard.model.event.Event;
  *
  */
 public class StateMachine {
+	private static final String LOG_TAG = "StateMachine";
+	
 	public enum States {
 		MENU_STATE,
 		PLAY_STATE,
@@ -43,6 +47,7 @@ public class StateMachine {
 	public void changeState(States newState) {
 		if(newState == States.MENU_STATE) {
 			if( !(currentState instanceof MenuState) ){
+				Log.i(LOG_TAG, "changeState(MENU_STATE)");
 				currentState.onExit();
 				currentState = menuState;
 				currentState.onEnter();
@@ -50,6 +55,7 @@ public class StateMachine {
 		}
 		else if(newState == States.PLAY_STATE) {
 			if( !(currentState instanceof PlayState) ){
+				Log.i(LOG_TAG, "changeState(PLAY_STATE)");
 				currentState.onExit();
 				currentState = playState;
 				currentState.onEnter();
@@ -57,6 +63,7 @@ public class StateMachine {
 		}
 		else if(newState == States.RECORD_STATE) {
 			if( !(currentState instanceof RecordState) ){
+				Log.i(LOG_TAG, "changeState(RECORD_STATE)");
 				currentState.onExit();
 				currentState = recordState;
 				currentState.onEnter();

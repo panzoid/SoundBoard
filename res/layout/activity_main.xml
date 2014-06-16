@@ -37,7 +37,8 @@
 	    	<Button
 		        android:id="@+id/button1"
 		        android:layout_width="match_parent"
-		        android:layout_height="match_parent" />
+		        android:layout_height="match_parent"
+		        android:onClick="onClick" />
 	    
 	    </LinearLayout>
 	    <LinearLayout
@@ -49,7 +50,8 @@
 		    <Button
 		        android:id="@+id/button2"
 		        android:layout_width="match_parent"
-		        android:layout_height="match_parent" />
+		        android:layout_height="match_parent"
+		        android:onClick="onClick" />
 		    
 	    </LinearLayout>
 	    
@@ -71,7 +73,8 @@
 	    	<Button
 		        android:id="@+id/button3"
 		        android:layout_width="match_parent"
-		        android:layout_height="match_parent" />
+		        android:layout_height="match_parent"
+		        android:onClick="onClick" />
 	    
 	    </LinearLayout>
 	    <LinearLayout
@@ -83,7 +86,8 @@
 		    <Button
 		        android:id="@+id/button4"
 		        android:layout_width="match_parent"
-		        android:layout_height="match_parent" />
+		        android:layout_height="match_parent"
+		        android:onClick="onClick" />
 		    
 	    </LinearLayout>
 	    

@@ -23,7 +23,7 @@ public class MenuState implements State{
 
 	@Override
 	public boolean handleEvent(Event event) {
-		if (event == Event.PLAY_EVENT) {
+		if (event.getType() == Event.Types.PLAY_EVENT) {
 			StateMachine.getInstance().changeState(StateMachine.States.PLAY_STATE);
 			return true;
 		}
