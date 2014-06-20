@@ -6,6 +6,7 @@ import com.panzoid.soundboard.model.event.Event;
 import com.panzoid.soundboard.model.state.StateMachine;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -14,12 +15,16 @@ import android.view.View.OnClickListener;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Switch;
+import android.widget.TextView;
 
 public class MainActivity extends Activity implements OnClickListener{
 
 	private static final String LOG_TAG = "MainActivity";	
 	private Switch playRecordSwitch;
 	public static String mediaFileNamePart;
+	public static String internalStoragePath;
+	
+	public static MainActivity mainActivity;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +44,12 @@ public class MainActivity extends Activity implements OnClickListener{
 			}
 		});
 		
-		mediaFileNamePart = Environment.getExternalStorageDirectory().getAbsolutePath();
-		mediaFileNamePart += "/SoundBoard_";
+		internalStoragePath = getApplicationContext().getFilesDir().getPath();
+		mainActivity = this;
+	}
+	
+	public static MainActivity getInstance(){
+		return mainActivity;
 	}
 
 	@Override
@@ -65,6 +74,13 @@ public class MainActivity extends Activity implements OnClickListener{
 			default:
 				Log.i(LOG_TAG, "???.onClick()");
 				break;
+		}
+	}
+	
+	public void setText(int id, String text) {
+		View view = findViewById(id);
+		if (view instanceof TextView) {
+			((TextView) view).setText(text);
 		}
 	}
 }
