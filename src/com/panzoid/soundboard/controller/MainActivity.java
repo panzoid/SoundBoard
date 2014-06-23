@@ -26,6 +26,10 @@ public class MainActivity extends Activity implements OnClickListener{
 	
 	public static MainActivity mainActivity;
 	
+	public static MainActivity getInstance(){
+		return mainActivity;
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -47,29 +51,25 @@ public class MainActivity extends Activity implements OnClickListener{
 		internalStoragePath = getApplicationContext().getFilesDir().getPath();
 		mainActivity = this;
 	}
-	
-	public static MainActivity getInstance(){
-		return mainActivity;
-	}
 
 	@Override
-	public void onClick(View v) {
-		switch(v.getId()) {
+	public void onClick(View view) {
+		switch(view.getId()) {
 			case R.id.button1:
 				Log.i(LOG_TAG, "button1.onClick()");
-				StateMachine.getInstance().handleEvent(new Event(Event.Types.CLICK_EVENT, v.getId()));
+				StateMachine.getInstance().handleEvent(new Event(Event.Types.CLICK_EVENT, view.getId()));
 				break;
 			case R.id.button2:
 				Log.i(LOG_TAG, "button2.onClick()");
-				StateMachine.getInstance().handleEvent(new Event(Event.Types.CLICK_EVENT, v.getId()));
+				StateMachine.getInstance().handleEvent(new Event(Event.Types.CLICK_EVENT, view.getId()));
 			 	break;
 			case R.id.button3:
 				Log.i(LOG_TAG, "button3.onClick()");
-				StateMachine.getInstance().handleEvent(new Event(Event.Types.CLICK_EVENT, v.getId()));
+				StateMachine.getInstance().handleEvent(new Event(Event.Types.CLICK_EVENT, view.getId()));
 				break;
 			case R.id.button4:
 				Log.i(LOG_TAG, "button4.onClick()");
-				StateMachine.getInstance().handleEvent(new Event(Event.Types.CLICK_EVENT, v.getId()));
+				StateMachine.getInstance().handleEvent(new Event(Event.Types.CLICK_EVENT, view.getId()));
 				break;
 			default:
 				Log.i(LOG_TAG, "???.onClick()");
@@ -77,6 +77,7 @@ public class MainActivity extends Activity implements OnClickListener{
 		}
 	}
 	
+	// Sets the text of a TextView indicated by id
 	public void setText(int id, String text) {
 		View view = findViewById(id);
 		if (view instanceof TextView) {

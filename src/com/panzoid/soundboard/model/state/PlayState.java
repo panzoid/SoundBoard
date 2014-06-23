@@ -16,11 +16,11 @@ private static final String LOG_TAG = "PlayState";
 	
 	private void onPlay(int id) {
 		try {
-            mPlayer.setDataSource(MainActivity.internalStoragePath+id+".3gp");
+			mPlayer.setDataSource(MainActivity.internalStoragePath+id+".3gp");
             mPlayer.prepare();
             mPlayer.start();
         } catch (IOException e) {
-            Log.e(LOG_TAG, "MediaPlayer.prepare() failed");
+            Log.e(LOG_TAG, "MediaPlayer.start() failed");
         }
 	}
 	
