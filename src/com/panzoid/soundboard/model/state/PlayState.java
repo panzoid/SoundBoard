@@ -83,6 +83,8 @@ public class PlayState implements State {
 
 	@Override
 	public boolean onExit() {
+		soundPool.release();
+		soundPool = null;
 		return true;
 	}
 
