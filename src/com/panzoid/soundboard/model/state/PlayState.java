@@ -21,9 +21,12 @@ public class PlayState implements State {
 	private int[] soundIDs = new int[]{-1,-1,-1,-1};
 	private int[] streamIDs = new int[4];
 	private float volume;
+	private AudioManager audioManager;
 	
-	private void onPlay(int id) {
-		AudioManager audioManager = (AudioManager) MainActivity.getInstance().getSystemService(MainActivity.AUDIO_SERVICE);
+	public PlayState() {
+		audioManager = (AudioManager) MainActivity.getInstance().getSystemService(MainActivity.AUDIO_SERVICE);
+	}
+	private void onPlay(int id) {		
 		float actualVolume = (float)audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
 		float maxVolume = (float)audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
 		volume = actualVolume / maxVolume;
@@ -61,7 +64,7 @@ public class PlayState implements State {
 	@Override
 	public boolean onEnter() {
 		soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
-		
+
 		if (USE_TEST_SOUNDS) {
 			soundIDs[0] = soundPool.load(MainActivity.getInstance(), R.raw.voice, 1);
 			soundIDs[1] = soundPool.load(MainActivity.getInstance(), R.raw.drum, 1);
