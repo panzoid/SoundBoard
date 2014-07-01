@@ -2,7 +2,6 @@ package com.panzoid.soundboard.model.state;
 
 import java.io.IOException;
 
-import android.content.Context;
 import android.media.MediaRecorder;
 import android.os.Handler;
 import android.util.Log;
@@ -12,9 +11,6 @@ import com.panzoid.soundboard.controller.MainActivity;
 import com.panzoid.soundboard.model.event.Event;
 
 public class RecordState implements State {
-	
-	// Change to true if running in emulator as microphone is not supported in emulator
-	private static final boolean EMULATOR = true;
 	
 	private static final String LOG_TAG = "RecordState";
 	
@@ -29,18 +25,9 @@ public class RecordState implements State {
 	private Handler handler = new Handler();
 	private RecordTimer recordTimer;
 	
-	private void onClickEvent(int id) {
-		if(isRecording) {
-			stopRecording(id);
-		}
-		else {
-			startRecording(id);
-		}
-	}
-	
 	private void startRecording(int id) {
 		// Emulator cannot do recordings
-		if(!EMULATOR) {
+		if(!MainActivity.EMULATOR) {
 			mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
 			mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
 			mRecorder.setOutputFile(MainActivity.internalStoragePath + id + ".3gp");
@@ -61,9 +48,9 @@ public class RecordState implements State {
 
 	private void stopRecording(int id) {
 		// Only stop recording if the same button was pressed.
-		if(id == recordingId) {
+		if(id == recordingId && isRecording) {
 			// Emulator cannot start a recording so it is not in stop-able state
-			if(!EMULATOR) {
+			if(!MainActivity.EMULATOR) {
 				mRecorder.stop(); 
 			}
 			MainActivity.getInstance().setText(id, "");
@@ -82,9 +69,7 @@ public class RecordState implements State {
 	@Override
 	public boolean onExit() {
 		// Stop recording if we leave this state
-		if(isRecording) {
-			stopRecording(recordingId);
-		}
+		stopRecording(recordingId);
 		
 		// Release MediaRecorder resource
 		if (mRecorder != null) {
@@ -104,8 +89,12 @@ public class RecordState implements State {
 			StateMachine.getInstance().changeState(StateMachine.States.MENU_STATE);
 			return true;
 		}
-		else if (event.getType() == Event.Types.CLICK_EVENT) {
-			onClickEvent(event.getId());
+		else if (event.getType() == Event.Types.ACTION_DOWN_EVENT) {
+			startRecording(event.getId());
+			return true;
+		}
+		else if (event.getType() == Event.Types.ACTION_UP_EVENT) {
+			stopRecording(event.getId());
 			return true;
 		}
 		return false;
@@ -126,9 +115,7 @@ public class RecordState implements State {
 		public void run() {
 			if( ticks <= 0 ) {
 				// Only stop recording if currently recording
-				if(isRecording) {
-					stopRecording(id);
-				}
+				stopRecording(id);
 			}
 			else {
 				Log.i(LOG_TAG, "RecordTimer ticks: " + ticks);

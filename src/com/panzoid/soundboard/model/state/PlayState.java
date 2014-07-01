@@ -1,8 +1,5 @@
 package com.panzoid.soundboard.model.state;
 
-import java.io.IOException;
-
-import android.media.MediaPlayer;
 import android.util.Log;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -14,8 +11,6 @@ import com.panzoid.soundboard.model.event.Event;
 public class PlayState implements State {
 	
 	private static final String LOG_TAG = "PlayState";
-	
-	private static final boolean USE_TEST_SOUNDS = true;
 	
 	private SoundPool soundPool;
 	private int[] soundIDs = new int[]{-1,-1,-1,-1};
@@ -65,7 +60,7 @@ public class PlayState implements State {
 	public boolean onEnter() {
 		soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
 
-		if (USE_TEST_SOUNDS) {
+		if (MainActivity.EMULATOR) {
 			soundIDs[0] = soundPool.load(MainActivity.getInstance(), R.raw.voice, 1);
 			soundIDs[1] = soundPool.load(MainActivity.getInstance(), R.raw.drum, 1);
 			soundIDs[2] = soundPool.load(MainActivity.getInstance(), R.raw.hihat, 1);
@@ -98,7 +93,7 @@ public class PlayState implements State {
 			StateMachine.getInstance().changeState(StateMachine.States.MENU_STATE);
 			return true;
 		}
-		else if (event.getType() == Event.Types.CLICK_EVENT) {
+		else if (event.getType() == Event.Types.ACTION_DOWN_EVENT) {
 			onPlay(event.getId());
 			return true;
 		}

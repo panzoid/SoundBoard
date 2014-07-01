@@ -6,10 +6,13 @@ public class Event {
 		RECORD_EVENT,
 		PLAY_EVENT,
 		MENU_EVENT,
-		CLICK_EVENT
+		ACTION_DOWN_EVENT,
+		ACTION_UP_EVENT
 	}
 	
+	// event type
 	private final Types type;
+	// id of view that triggered event, id can be null for state change events
 	private final int id;
 	
 	public Event(Types type, int id) {
