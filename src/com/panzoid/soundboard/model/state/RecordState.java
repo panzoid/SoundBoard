@@ -26,6 +26,10 @@ public class RecordState implements State {
 	private RecordTimer recordTimer;
 	
 	private void startRecording(int id) {
+		// Return immediately if we are already recording
+		if(isRecording) {
+			return;
+		}
 		// Emulator cannot do recordings
 		if(!MainActivity.EMULATOR) {
 			mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);

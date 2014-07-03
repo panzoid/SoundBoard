@@ -1,10 +1,14 @@
 package com.panzoid.soundboard.controller;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.panzoid.soundboard.R;
 import com.panzoid.soundboard.R.layout;
 import com.panzoid.soundboard.model.event.Event;
 import com.panzoid.soundboard.model.state.StateMachine;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Environment;
@@ -20,13 +24,12 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity implements OnTouchListener{
 	
-	public static final boolean EMULATOR = true;
+	public static final boolean EMULATOR = false;
+	private static final String TEST_DEVICE_ID = "0C1563C7E57A45787962AB7C645003E3";
 
-	private static final String LOG_TAG = "MainActivity";	
-	private Switch playRecordSwitch;
-	public static String mediaFileNamePart;
-	public static String internalStoragePath;
+	private static final String LOG_TAG = "MainActivity";
 	
+	public static String internalStoragePath;
 	public static MainActivity mainActivity;
 	
 	public static MainActivity getInstance(){
@@ -38,7 +41,20 @@ public class MainActivity extends Activity implements OnTouchListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		playRecordSwitch = (Switch) findViewById(R.id.playRecordSwitch);
+		mainActivity = this;
+		internalStoragePath = getApplicationContext().getFilesDir().getPath() + "/";
+		
+		initPlayRecordSwitch();
+		initButtons();
+		initAdView();
+		
+	}
+	
+	private void initPlayRecordSwitch() {
+		Switch playRecordSwitch = (Switch) findViewById(R.id.playRecordSwitch);
+		int playRecordSwitchMinPixel = getResources().getInteger(R.integer.play_record_switch_height_min_pixel);
+		int playRecordSwitchMinPercentage = (int) (getResources().getInteger(R.integer.play_record_switch_height_min_percentage) / 100.0);
+		playRecordSwitch.setHeight(Math.max(playRecordSwitchMinPixel, playRecordSwitchMinPercentage));
 		playRecordSwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -50,16 +66,25 @@ public class MainActivity extends Activity implements OnTouchListener{
 				}
 			}
 		});
-		
+	}
+
+	private void initButtons() {
 		((Button) findViewById(R.id.button1)).setOnTouchListener(this);
 		((Button) findViewById(R.id.button2)).setOnTouchListener(this);
 		((Button) findViewById(R.id.button3)).setOnTouchListener(this);
 		((Button) findViewById(R.id.button4)).setOnTouchListener(this);
-		
-		internalStoragePath = getApplicationContext().getFilesDir().getPath();
-		mainActivity = this;
 	}
-
+	
+	private void initAdView() {
+		AdView adView = (AdView) findViewById(R.id.adView);    
+		AdRequest adRequest = new AdRequest.Builder()
+			.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+			.addTestDevice(TEST_DEVICE_ID)
+			.build();
+		adView.loadAd(adRequest);
+	}
+	
+	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	public boolean onTouch(View view, MotionEvent event) {
 		boolean eventConsumed = false;
